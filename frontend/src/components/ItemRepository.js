@@ -2,7 +2,7 @@ import axios from "axios";
 
 class ItemRepository {
     constructor() {
-        this.host = "http://localhost:5000"
+        this.host = "https://product-catalog-backend-jmws.onrender.com"
     }
 
     async getItems() {

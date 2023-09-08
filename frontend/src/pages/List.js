@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "../components/Table";
 import ItemRepository from "../components/ItemRepository";
+import "../list.css"
 
 class List extends React.Component {
 
@@ -72,12 +73,19 @@ class List extends React.Component {
                 <div>
                     * El buscador busca por marca y descripcion.
                 </div>
-                <div id="search">
-                    <label>Buscador: </label>
-                    <input onInput={this.handleInput}/>
-                    <button onClick={this.handleSelect}>Seleccionar</button>
-                    <button>Editar</button>
-                    <button onClick={this.handleDelete} disabled={this.state.deleting}>Borrar</button>
+                <div id="table-actions">
+                    <div id="search">
+                        <i className="fa-solid fa-magnifying-glass fa-lg"></i>
+                        <input className={"search-box"} placeholder={"Buscar"} onInput={this.handleInput}/>
+                    </div>
+
+                    <div id="actions">
+                        <button className={"delete-button action-button"} onClick={this.handleDelete}
+                                disabled={this.state.deleting} hidden={!this.state.isSelectOn}>Borrar
+                        </button>
+                        <button className={"select-button action-button"} onClick={this.handleSelect}>Seleccionar
+                        </button>
+                    </div>
                 </div>
                 <Table {...this.state}/>
             </div>

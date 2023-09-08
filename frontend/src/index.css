@@ -53,34 +53,3 @@ a {
 .menu:hover {
     border-bottom: 1px solid white;
 }
-/* Listado  */
-/* Item */
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-th {
-    background-color: #c3c3c3;
-}
-
-#main-container {
-    width: 60%;
-    margin: 10px;
-}
-
-
-#search {
-    display: flex;
-    margin: 10px;
-}
-
-

@@ -45,7 +45,7 @@ class Upload extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="upload-containter">
                 <h1>Cargar Producto</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div class={"form-group"}>
@@ -76,8 +76,9 @@ class Upload extends React.Component {
                         <label>Precio:</label>
                         <input type={"number"} name={"price"} step={"0.001"}/>
                     </div>
-                    <button type={"submit"} disabled={this.state.sending}>Cargar</button>
+                    <button type={"submit"} className={"upload-button"} disabled={this.state.sending}>Cargar</button>
                 </form>
+
                 <br/>
                 <div class={"form-group"}>
                     Response Status: {this.state.createStatus?.toString()}
