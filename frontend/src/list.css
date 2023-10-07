@@ -59,6 +59,11 @@ th {
     color: white;
 }
 
+.edit-button:hover {
+    background-color: black;
+    color: white;
+}
+
 .search-box {
     padding: 10px;
     border: 1px solid #ccc;

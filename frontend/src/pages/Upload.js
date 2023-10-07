@@ -8,7 +8,7 @@ class Upload extends React.Component {
         this.itemRepository = new ItemRepository()
         this.state = {
             sending: false,
-            createStatus: null,
+            sendOk: null,
             createMessage: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,9 +17,9 @@ class Upload extends React.Component {
     handleSubmit(e) {
         //block form
         e.preventDefault()
-        this.setState({sending: true})
+        this.setState({ sending: true, createMessage: null })
 
-        let {article, description, brand, units, display, bulk, price} = e.target.elements
+        let { article, description, brand, units, display, bulk, price } = e.target.elements
 
         //validar datos
         let item = {
@@ -36,10 +36,10 @@ class Upload extends React.Component {
         //enviar a server
         this.itemRepository.createItem(item)
             .then(response => {
-                this.setState({sending: false, createStatus: true, createMessage: response.data})
+                this.setState({ sending: false, sendOk: true, createMessage: response.data })
             })
             .catch(error => {
-                this.setState({sending: false, createStatus: false, createMessage: error})
+                this.setState({ sending: false, sendOk: false, createMessage: error })
             })
     }
 
@@ -47,44 +47,68 @@ class Upload extends React.Component {
         return (
             <div id="upload-containter">
                 <h1>Cargar Producto</h1>
+                <br />
                 <form onSubmit={this.handleSubmit}>
-                    <div class={"form-group"}>
-                        <label>Articulo:</label>
-                        <input type={"text"} name={"article"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Description:</label>
-                        <input type={"text"} name={"description"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Marca:</label>
-                        <input type={"text"} name={"brand"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Unidades:</label>
-                        <input type={"number"} name={"units"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Display:</label>
-                        <input type={"number"} name={"display"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Bulk:</label>
-                        <input type={"number"} name={"bulk"}/>
-                    </div>
-                    <div className={"form-group"}>
-                        <label>Precio:</label>
-                        <input type={"number"} name={"price"} step={"0.001"}/>
+                    <div className="form-fields">
+                        <div class={"form-group"}>
+                            <label>Articulo:</label>
+                            <input type={"text"} name={"article"} placeholder="Articulo" />
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Descripcion:</label>
+                            <input type={"text"} name={"description"} placeholder="Descripcion" />
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Marca:</label>
+                            <input type={"text"} name={"brand"} placeholder="Marca" />
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Unidades:</label>
+                            <input type={"number"} name={"units"} placeholder="00"/>
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Display:</label>
+                            <input type={"number"} name={"display"} placeholder="00" />
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Bulk:</label>
+                            <input type={"number"} name={"bulk"} placeholder="00" />
+                        </div>
+                        <div className={"form-group"}>
+                            <label>Precio:</label>
+                            <input type={"number"} name={"price"} step={"0.001"} placeholder="$00.00"/>
+                        </div>
                     </div>
                     <button type={"submit"} className={"upload-button"} disabled={this.state.sending}>Cargar</button>
                 </form>
 
-                <br/>
-                <div class={"form-group"}>
-                    Response Status: {this.state.createStatus?.toString()}
-                    <br/>
-                    Response Message: {JSON.stringify(this.state.createMessage)}
-                </div>
+                <br />
+                {this.state.createMessage ?
+                    this.state.sendOk ?
+                        <div class={"message-content success-message"}>
+                            <div class="icon">
+                                <img src="/images/success-icon.svg" alt={"alert-icon"} />
+
+                            </div>
+                            <div class="body">
+                                <h3>Articulo Cargado</h3>
+                                <p>Carga exitosa</p>
+                            </div>
+                        </div>
+                        :
+                        <div class={"message-content error-message"}>
+                            <div class="icon">
+                                <img src="/images/error-icon.svg" alt={"alert-icon"} />
+
+                            </div>
+                            <div class="body">
+                                <h3>Error al Cargar</h3>
+                                <p>Hubo un error al realizar la carga: {JSON.stringify(this.state.createMessage)} </p>
+                            </div>
+                        </div>
+                    :
+                    <span></span>
+                }
             </div>
         )
     }
