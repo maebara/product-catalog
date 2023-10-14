@@ -14,9 +14,8 @@ try {
     process.exit(0)
 }
 
-
 const logger = winston.createLogger({
-    level: 'info',
+    level: 'debug',
     format: format.combine(
         format.timestamp(),
         format.json()
@@ -29,72 +28,127 @@ app.use(express.json())
 
 //Endpoints
 app.get("/item", async (req, res) => {
-    logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip} ` })
-    let items = await repository.findAll()
-    res.send(items)
-        .status(200)
+    try {
+        logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip} ` })
+        let items = await repository.findAll()
+        res.send(items)
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.post("/item", async (req, res) => {
-    logger.log({
-        level: 'info',
-        message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
-    })
-    let item = req.body
-    await repository.save(item)
-    res.send({ message: "POST OK" })
-        .status(200)
+    try {
+        logger.log({
+            level: 'info',
+            message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
+        })
+        let item = req.body
+        await repository.save(item)
+        res.send({ message: "POST OK" })
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.put("/item", async (req, res) => {
-    logger.log({
-        level: 'info',
-        message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
-    })
-    let item = req.body
-    await repository.replace(item)
-    res.send({ message: "PUT OK" })
-        .status(200)
+    try {
+        logger.log({
+            level: 'info',
+            message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
+        })
+        let item = req.body
+        await repository.replace(item)
+        res.send({ message: "PUT OK" })
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.put("/item/all", async (req, res) => {
-    logger.log({
-        level: 'info',
-        message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
-    })
-    let items = req.body
-    await repository.replaceAll(items)
-    res.send({ message: "PUT OK" })
-        .status(200)
+    try {
+        logger.info({
+            message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
+        })
+        let items = req.body
+        await repository.replaceAll(items)
+        res.send({ message: "PUT OK" })
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 
 app.delete("/item", async (req, res) => {
-    logger.log({
-        level: 'info',
-        message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
-    })
-    let item = req.body
-    await repository.delete(item)
-    res.send({ message: "DELETE OK" })
-        .status(200)
+    try {
+        logger.log({
+            level: 'info',
+            message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
+        })
+        let item = req.body
+        await repository.delete(item)
+        res.send({ message: "DELETE OK" })
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.delete("/item/all", async (req, res) => {
-    logger.log({
-        level: 'info',
-        message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
-    })
-    let body = req.body
-    await repository.deleteAll(body.ids)
-    res.send({ message: "DELETE ALL OK" })
-        .status(200)
+    try {
+        logger.log({
+            level: 'info',
+            message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
+        })
+        let body = req.body
+        await repository.deleteAll(body.ids)
+        res.send({ message: "DELETE ALL OK" })
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.get("/ping", async (req, res) => {
-    logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}` })
-    res.send("pong")
-        .status(200)
+    try {
+        logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}` })
+        res.send("pong")
+            .status(200)
+    } catch (error) {
+        logger.error({
+            message: `Error Message: ${error.message}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
 })
 
 app.listen(5000, () => console.log("app is running"))
@@ -104,7 +158,6 @@ process.on("SIGINT", async () => {
     console.log("Exit Succefull!");
     process.exit(0)
 })
-
 
 let pingCron = new PingCron();
 pingCron.run();
