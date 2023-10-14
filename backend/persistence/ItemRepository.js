@@ -1,5 +1,5 @@
-import {MongoClient, ServerApiVersion} from "mongodb"
-import {ObjectId} from "mongodb";
+import { MongoClient, ServerApiVersion } from "mongodb"
+import { ObjectId } from "mongodb";
 
 class ItemRepository {
     constructor() {
@@ -29,20 +29,34 @@ class ItemRepository {
         return await this.collection.insertOne(item)
     }
 
-    async replace(item) {
-        let filter = {"_id": new ObjectId(item._id)};
-        delete item._id
-        return await this.collection.replaceOne(filter, item)
-    }
-
     async delete(item) {
-        let filter = {"_id": new ObjectId(item._id)};
+        let filter = { "_id": new ObjectId(item._id) };
         return await this.collection.deleteOne(filter)
     }
 
     async deleteAll(items) {
         let ids = items.map(itemId => new ObjectId(itemId));
-        return await this.collection.deleteMany({_id: {$in: ids}})
+        return await this.collection.deleteMany({ _id: { $in: ids } })
+    }
+
+    async replace(item) {
+        let filter = { "_id": new ObjectId(item._id) };
+        delete item._id
+        return await this.collection.replaceOne(filter, item)
+    }
+
+    async replaceAll(items) {
+        let operations = items.map(item => {
+            let filter = { "_id": new ObjectId(item._id) };
+            delete item._id
+            return {
+                replaceOne: {
+                    "filter": filter,
+                    "replacement": item
+                }
+            }
+        })
+        return await this.collection.bulkWrite(operations)
     }
 
     async close() {
