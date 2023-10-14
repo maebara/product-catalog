@@ -19,12 +19,11 @@ class Upload extends React.Component {
         e.preventDefault()
         this.setState({ sending: true, createMessage: null })
 
-        let { article, description, brand, units, display, bulk, price } = e.target.elements
+        let { articleCode, description, brand, units, display, bulk, price } = e.target.elements
 
         //validar datos
         let item = {
-            "id": 123,
-            "article": article.value,
+            "articleCode": articleCode.valueAsNumber,
             "description": description.value,
             "brand": brand.value,
             "units": units.valueAsNumber,
@@ -51,8 +50,8 @@ class Upload extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-fields">
                         <div class={"form-group"}>
-                            <label>Articulo:</label>
-                            <input type={"text"} name={"article"} placeholder="Articulo" />
+                            <label>Cod. Articulo:</label>
+                            <input type={"number"} name={"articleCode"} placeholder="Articulo" />
                         </div>
                         <div className={"form-group"}>
                             <label>Descripcion:</label>
@@ -64,7 +63,7 @@ class Upload extends React.Component {
                         </div>
                         <div className={"form-group"}>
                             <label>Unidades:</label>
-                            <input type={"number"} name={"units"} placeholder="00"/>
+                            <input type={"number"} name={"units"} placeholder="00" />
                         </div>
                         <div className={"form-group"}>
                             <label>Display:</label>
@@ -76,7 +75,7 @@ class Upload extends React.Component {
                         </div>
                         <div className={"form-group"}>
                             <label>Precio:</label>
-                            <input type={"number"} name={"price"} step={"0.001"} placeholder="$00.00"/>
+                            <input type={"number"} name={"price"} step={"0.001"} placeholder="$00.00" />
                         </div>
                     </div>
                     <button type={"submit"} className={"upload-button"} disabled={this.state.sending}>Cargar</button>

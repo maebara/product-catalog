@@ -2,6 +2,7 @@ import React from "react";
 import Table from "../components/Table";
 import ItemRepository from "../components/ItemRepository";
 import "../list.css"
+import { useNavigate } from "react-router-dom";
 
 class List extends React.Component {
 
@@ -47,6 +48,12 @@ class List extends React.Component {
         let checkeds = Array.from(checks).filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.id)
 
+
+        if (!checkeds.length) {
+            this.setState({ isSelectOn: !this.state.isSelectOn, deleting: false })
+            return;
+        }
+
         this.itemRepository.deleteAll({ ids: checkeds })
             .then(response => {
                 this.setState({
@@ -64,14 +71,29 @@ class List extends React.Component {
     }
 
     handleEdit(evt) {
-       
         evt.preventDefault()
+        const { navigation } = this.props;
         this.setState({ deleting: true })
         let checks = document.querySelectorAll(".checkbox-table");
         let checkeds = Array.from(checks).filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.id)
 
-        
+        let items = this.getItems(checkeds)
+     
+        if (!items.length) {
+            this.setState({ isSelectOn: !this.state.isSelectOn, deleting: false })
+            return;
+        }
+
+        navigation("/editar", {
+            state: {
+                items
+            }
+        })
+    }
+
+    getItems(ids) {
+        return this.state.items.filter(item => ids.includes(item._id))
     }
 
     handleSelect(evt) {
@@ -110,4 +132,9 @@ class List extends React.Component {
 }
 
 
-export default List;
+
+export default function (props) {
+    const navigation = useNavigate();
+
+    return <List {...props} navigation={navigation} />
+} 

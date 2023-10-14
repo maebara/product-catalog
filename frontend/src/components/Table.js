@@ -6,8 +6,8 @@ class Table extends React.Component {
         return (
             <table>
                 <tr>
-                    { this.props.isSelectOn ? <th></th> : <span></span> }
-                    <th>Articulo</th>
+                    {this.props.isSelectOn ? <th></th> : <span></span>}
+                    <th>Cod. Articulo</th>
                     <th>Marca</th>
                     <th>Descripcion</th>
                     <th>Unidades</th>
@@ -18,8 +18,8 @@ class Table extends React.Component {
                 {
                     this.props.filteredItems.map((item, i) =>
                         <tr>
-                            { this.props.isSelectOn ? <td><input id={item._id} className={"checkbox-table"} type={"checkbox"}/></td> : <span></span> }
-                            <td>{item.id}</td>
+                            {this.props.isSelectOn ? <td><input id={item._id} className={"checkbox-table"} type={"checkbox"} /></td> : <span></span>}
+                            <td>{item.articleCode}</td>
                             <td>{item.brand}</td>
                             <td>{item.description}</td>
                             <td>{item.units}</td>
