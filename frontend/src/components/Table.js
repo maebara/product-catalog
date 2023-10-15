@@ -5,27 +5,35 @@ class Table extends React.Component {
     render() {
         return (
             <table>
-                <tr>
+                <tr className='header-table'>
                     {this.props.isSelectOn ? <th></th> : <span></span>}
-                    <th>Cod. Articulo</th>
+                    <th className='article-column'>Cod. Articulo</th>
                     <th>Marca</th>
                     <th>Descripcion</th>
-                    <th>Unidades</th>
-                    <th>Display</th>
-                    <th>Bulto</th>
-                    <th>Precio Unitario</th>
+                    <th className='units-column' >Unidades</th>
+                    <th className='display-column'>Display</th>
+                    <th className='bulk-column'>Bulto</th>
+                    <th className='price-column'>Precio Unitario</th>
                 </tr>
                 {
                     this.props.filteredItems.map((item, i) =>
                         <tr>
-                            {this.props.isSelectOn ? <td><input id={item._id} className={"checkbox-table"} type={"checkbox"} /></td> : <span></span>}
-                            <td>{item.articleCode}</td>
+                            {this.props.isSelectOn ?
+                                <td className='checkbox-column'>
+                                    <div className={"line"}>
+                                        <input id={item._id} className={"checkbox-table"} type={"checkbox"} />
+                                    </div>
+                                </td>
+                                :
+                                <span></span>
+                            }
+                            <td className='article-column'>{item.articleCode}</td>
                             <td>{item.brand}</td>
                             <td>{item.description}</td>
-                            <td>{item.units}</td>
-                            <td>{item.display}</td>
-                            <td>{item.bulk}</td>
-                            <td>$ {item.price?.toString().replace(".", ",")}</td>
+                            <td className='units-column'>{item.units}</td>
+                            <td className='display-column'>{item.display}</td>
+                            <td className='bulk-column'>{item.bulk}</td>
+                            <td className='price-column'>$ {item.price?.toString().replace(".", ",")}</td>
                         </tr>
                     )
                 }

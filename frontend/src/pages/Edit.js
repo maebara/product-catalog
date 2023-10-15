@@ -4,7 +4,6 @@ import "../edit.css"
 import { useLocation } from "react-router-dom";
 
 class Edit extends React.Component {
-
     constructor() {
         super();
         this.itemRepository = new ItemRepository()
@@ -35,13 +34,16 @@ class Edit extends React.Component {
     }
 
     handleChange(evt) {
+        evt.preventDefault()
         let { position, name, type } = evt.target.attributes;
         let items = this.state.items
-        if (type == "number") {
+
+        if (type.value == "number") {
             items[position.value][name.value] = evt.target.valueAsNumber
-        } else if (type == "text") {
+        } else if (type.value == "text") {
             items[position.value][name.value] = evt.target.value
         }
+
 
         this.setState({ items: items })
     }
@@ -64,7 +66,7 @@ class Edit extends React.Component {
                                 <div className="form-row">
                                     <div class={"edit-form-field"}>
                                         <label>Id:</label>
-                                        <input type={"text"} name={`_id$${i}`} value={item?._id} />
+                                        <input type={"text"} name={`_id`} value={item?._id} />
                                     </div>
                                     <div class={"edit-form-field"}>
                                         <label>Cod. Articulo:</label>
@@ -103,41 +105,9 @@ class Edit extends React.Component {
                         </div>
                     </form>
                     :
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-row">
-                            <div class={"edit-form-field"}>
-                                <label>Articulo:</label>
-                                <input type={"text"} name={"articleCode"} placeholder="Articulo" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Descripcion:</label>
-                                <input type={"text"} name={"description"} placeholder="Descripcion" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Marca:</label>
-                                <input type={"text"} name={"brand"} placeholder="Marca" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Unidades:</label>
-                                <input type={"number"} name={"units"} placeholder="00" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Display:</label>
-                                <input type={"number"} name={"display"} placeholder="00" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Bulk:</label>
-                                <input type={"number"} name={"bulk"} placeholder="00" />
-                            </div>
-                            <div className={"edit-form-field"}>
-                                <label>Precio:</label>
-                                <input type={"number"} name={"price"} step={"0.001"} placeholder="$00.00" />
-                            </div>
-                        </div>
-                        <div className={"box-button"}>
-                            <button type={"submit"} className={"edit-upload-button"} disabled={this.state.sending}>Guardar</button>
-                        </div>
-                    </form>
+                    <p>
+                        Seleccionar en el listado los productos a editar.
+                    </p>
                 }
 
                 <br />

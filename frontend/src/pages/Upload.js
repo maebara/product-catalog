@@ -51,7 +51,7 @@ class Upload extends React.Component {
                     <div className="form-fields">
                         <div class={"form-group"}>
                             <label>Cod. Articulo:</label>
-                            <input type={"number"} name={"articleCode"} placeholder="Articulo" />
+                            <input type={"number"} name={"articleCode"} placeholder="00" />
                         </div>
                         <div className={"form-group"}>
                             <label>Descripcion:</label>

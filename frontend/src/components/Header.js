@@ -14,7 +14,7 @@ class Header extends React.Component {
                     {
                         links.map((link, i) =>
                             <li key={i} className="menu">
-                                <NavLink to={`/${link}`}>{link}</NavLink>
+                                <NavLink to={`/${link.path}`}>{link.name}</NavLink>
                             </li>
                         )
                     }

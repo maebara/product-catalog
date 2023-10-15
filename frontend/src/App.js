@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
@@ -8,17 +8,29 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            links: ["listado", "carga", "editar"]
+            links: [
+                {
+                    name: "Listado",
+                    path: "listado"
+                },
+                {
+                    name: "Carga",
+                    path: "carga"
+                },
+                {
+                    name: "Editar",
+                    path: "editar"
+                }]
         }
     }
 
     render() {
-        let {links} = this.state;
+        let { links } = this.state;
         return (
             <Fragment>
-                <Header links={links}/>
-                <Main/>
-                <Footer/>
+                <Header links={links} />
+                <Main />
+                <Footer />
             </Fragment>
         )
     }
