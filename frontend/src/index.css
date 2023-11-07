@@ -54,3 +54,7 @@ a {
 .menu:hover {
     border-bottom: 1px solid white;
 }
+
+.logo{
+    padding-top: 10px;
+}

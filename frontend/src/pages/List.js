@@ -27,6 +27,10 @@ class List extends React.Component {
     componentDidMount() {
         this.itemRepository.getItems()
             .then(response => this.setState({ items: response.data, filteredItems: response.data }))
+            .catch(err => {
+                //spinner y mostrar msj de error timeout en el listado
+                console.log(err)
+            })
     }
 
     handleInput(event) {
@@ -79,7 +83,7 @@ class List extends React.Component {
             .map(checkbox => checkbox.id)
 
         let items = this.getItems(checkeds)
-     
+
         if (!items.length) {
             this.setState({ isSelectOn: !this.state.isSelectOn, deleting: false })
             return;

@@ -4,6 +4,11 @@ class ItemRepository {
     constructor() {
         //this.host= "http://localhost:5000"
         this.host = "https://product-catalog-backend-jmws.onrender.com"
+
+        this.client = axios.create({
+            baseURL: "https://product-catalog-backend-jmws.onrender.com",
+            timeout: 10000, // 10 seconds
+        });
     }
 
     async getItems() {
