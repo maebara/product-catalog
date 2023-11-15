@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
 
-class ItemRepository {
+class UserRepository {
     constructor(connection) {
-        this.collection = connection.db("products-catalog").collection("items")
+        this.collection = connection.db("products-catalog").collection("users")
     }
 
     async findAll() {
@@ -10,12 +10,16 @@ class ItemRepository {
             .toArray()
     }
 
-    async save(item) {
-        return await this.collection.insertOne(item)
+    async findByUsername(username) {
+        return await this.collection.findOne({ user: username })
     }
 
-    async delete(item) {
-        let filter = { "_id": new ObjectId(item._id) };
+    async save(user) {
+        return await this.collection.insertOne(user)
+    }
+
+    async delete(user) {
+        let filter = { "_id": new ObjectId(user._id) };
         return await this.collection.deleteOne(filter)
     }
 
@@ -44,9 +48,6 @@ class ItemRepository {
         return await this.collection.bulkWrite(operations)
     }
 
-    async close() {
-        await this.client.close();
-    }
 }
 
-export default ItemRepository;
+export default UserRepository;

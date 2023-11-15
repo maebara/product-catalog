@@ -3,12 +3,22 @@ import cors from "cors"
 import ItemRepository from "./persistence/ItemRepository.js";
 import PingCron from "./cron/PingCron.js";
 import winston, { transports, format } from 'winston';
+import * as jose from 'jose'
+import MongoDBConnection from "./persistence/MongoDBConnection.js";
+import UserRepository from "./persistence/UserRepository.js";
+import bcrypt from 'bcryptjs';
 
 const app = express()
 let repository = {}
+let userRepository = {}
+let mongoDBConnection = {}
+let SECRET = '8njJKw1ExEGAaeqDhidTB9KRL3mBCx5g'
+
 try {
-    repository = new ItemRepository()
-    await repository.connect()
+    mongoDBConnection = new MongoDBConnection()
+    let connection = await mongoDBConnection.connect();
+    repository = new ItemRepository(connection)
+    userRepository = new UserRepository(connection)
 } catch (error) {
     console.log("Error ocurred " + error)
     process.exit(0)
@@ -105,14 +115,25 @@ app.delete("/item", async (req, res) => {
             level: 'info',
             message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
         })
+        const secret = new TextEncoder().encode(SECRET)
+        let jwt = req.headers.authorization
+        if (!jwt) {
+            res
+                .status(401)
+                .send({ error: "Authorization Token Required" })
+            return;
+        }
+        await jose.jwtVerify(jwt, secret)
+
         let item = req.body
         await repository.delete(item)
         res.send({ message: "DELETE OK" })
             .status(200)
     } catch (error) {
         logger.error({
-            message: `Error Message: ${error.message}`
+            message: `Error: ${error}`
         })
+
         res.status(500)
             .send({ message: error.message })
     }
@@ -140,6 +161,12 @@ app.delete("/item/all", async (req, res) => {
 app.get("/ping", async (req, res) => {
     try {
         logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}` })
+
+        //    const secret = new TextEncoder().encode(SECRET)
+        //    let jwt = req.headers.authorization
+        //    await jose.jwtVerify(jwt, secret)
+
+        // console.log(verified)
         res.send("pong")
             .status(200)
     } catch (error) {
@@ -151,10 +178,52 @@ app.get("/ping", async (req, res) => {
     }
 })
 
+
+app.post("/auth/token", async (req, res) => {
+    try {
+        logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}` })
+        const secret = new TextEncoder().encode(SECRET)
+        const alg = 'HS256'
+
+        let body = req.body
+
+        //await userRepository.save({ user: 'userHere', pass: bcrypt.hashSync('passwordHere') })
+
+        let user = await userRepository.findByUsername(body.user);
+
+        if (user == null) {
+            res.status(404)
+                .send({ error: "User Not Found" })
+            return;
+        }
+
+        if (!bcrypt.compareSync(body.pass, user.pass)) {
+            res.status(401)
+                .send({ error: "Invalid credentials" })
+            return;
+        }
+
+        const jwt = await new jose.SignJWT({ user: 'Usuarioadmin32' })
+            .setProtectedHeader({ alg })
+            .setExpirationTime('12h')
+            .sign(secret)
+
+        res.status(200)
+            .send({ token: jwt })
+    } catch (error) {
+        logger.error({
+            message: `Error: ${error}`
+        })
+        res.status(500)
+            .send({ message: error.message })
+    }
+})
+
+
 app.listen(5000, () => console.log("app is running"))
 
 process.on("SIGINT", async () => {
-    await repository.close()
+    await mongoDBConnection.close()
     console.log("Exit Succefull!");
     process.exit(0)
 })
