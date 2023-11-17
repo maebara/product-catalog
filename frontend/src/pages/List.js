@@ -3,6 +3,7 @@ import Table from "../components/Table";
 import ItemRepository from "../components/ItemRepository";
 import "../list.css"
 import { useNavigate } from "react-router-dom";
+import PrivateComponent from "../components/PrivateComponent";
 
 class List extends React.Component {
 
@@ -117,17 +118,18 @@ class List extends React.Component {
                         <i className="fa-solid fa-magnifying-glass fa-lg"></i>
                         <input className={"search-box"} placeholder={"Buscar"} onInput={this.handleInput} />
                     </div>
-
-                    <div id="actions">
-                        <button className={"edit-button action-button"} onClick={this.handleEdit}
-                            disabled={this.state.deleting} hidden={!this.state.isSelectOn}>Editar
-                        </button>
-                        <button className={"delete-button action-button"} onClick={this.handleDelete}
-                            disabled={this.state.deleting} hidden={!this.state.isSelectOn}>Borrar
-                        </button>
-                        <button className={"select-button action-button"} onClick={this.handleSelect}>Seleccionar
-                        </button>
-                    </div>
+                    <PrivateComponent>
+                        <div id="actions">
+                            <button className={"edit-button action-button"} onClick={this.handleEdit}
+                                disabled={this.state.deleting} hidden={!this.state.isSelectOn}>Editar
+                            </button>
+                            <button className={"delete-button action-button"} onClick={this.handleDelete}
+                                disabled={this.state.deleting} hidden={!this.state.isSelectOn}>Borrar
+                            </button>
+                            <button className={"select-button action-button"} onClick={this.handleSelect}>Seleccionar
+                            </button>
+                        </div>
+                    </PrivateComponent>
                 </div>
                 <Table {...this.state} />
             </div>

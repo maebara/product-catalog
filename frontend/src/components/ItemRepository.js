@@ -16,18 +16,35 @@ class ItemRepository {
     }
 
     async createItem(item) {
-        return await axios.post(this.host + "/item", item)
+        let token = this.getToken()
+        return await axios.post(this.host + "/item", item, {
+            headers: {
+                'Authorization': token
+            }
+        })
     }
 
     async deleteAll(items) {
-        return await axios.delete(this.host + "/item/all", { data: items })
+        let token = this.getToken()
+        return await axios.delete(this.host + "/item/all", { data: items }, {
+            headers: {
+                'Authorization': token
+            }
+        })
     }
 
     async updateAll(items) {
-        return await axios.put(this.host + "/item/all", items)
+        let token = this.getToken()
+        return await axios.put(this.host + "/item/all", items, {
+            headers: {
+                'Authorization': token
+            }
+        })
     }
 
-
+    getToken() {
+        return window.sessionStorage.getItem("token");
+    }
     /*
    return await new Promise((resolve, reject) => {
        setTimeout(() => {
