@@ -43,15 +43,9 @@ class ItemRepository {
     }
 
     getToken() {
-        return window.sessionStorage.getItem("token");
+        return window.localStorage.getItem("token");
     }
-    /*
-   return await new Promise((resolve, reject) => {
-       setTimeout(() => {
-           resolve()
-       }, 500)
 
-   })*/
 }
 
 export default ItemRepository;
