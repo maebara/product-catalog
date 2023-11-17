@@ -26,11 +26,15 @@ class ItemRepository {
 
     async deleteAll(items) {
         let token = this.getToken()
-        return await axios.delete(this.host + "/item/all", { data: items }, {
+        const options = {
+            url: this.host + "/item/all",
+            method: 'DELETE',
             headers: {
                 'Authorization': token
-            }
-        })
+            },
+            data: items
+        }
+        return await axios(options)
     }
 
     async updateAll(items) {
@@ -45,7 +49,13 @@ class ItemRepository {
     getToken() {
         return window.localStorage.getItem("token");
     }
+    /*
+   return await new Promise((resolve, reject) => {
+       setTimeout(() => {
+           resolve()
+       }, 500)
 
+   })*/
 }
 
 export default ItemRepository;
