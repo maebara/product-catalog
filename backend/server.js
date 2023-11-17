@@ -58,6 +58,15 @@ app.post("/item", async (req, res) => {
             level: 'info',
             message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
         })
+        const secret = new TextEncoder().encode(SECRET)
+        let jwt = req.headers.authorization
+        if (!jwt) {
+            res
+                .status(401)
+                .send({ error: "Authorization Token Required" })
+            return;
+        }
+        await jose.jwtVerify(jwt, secret)
         let item = req.body
         await repository.save(item)
         res.send({ message: "POST OK" })
@@ -77,6 +86,15 @@ app.put("/item", async (req, res) => {
             level: 'info',
             message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
         })
+        const secret = new TextEncoder().encode(SECRET)
+        let jwt = req.headers.authorization
+        if (!jwt) {
+            res
+                .status(401)
+                .send({ error: "Authorization Token Required" })
+            return;
+        }
+        await jose.jwtVerify(jwt, secret)
         let item = req.body
         await repository.replace(item)
         res.send({ message: "PUT OK" })
@@ -95,6 +113,15 @@ app.put("/item/all", async (req, res) => {
         logger.info({
             message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
         })
+        const secret = new TextEncoder().encode(SECRET)
+        let jwt = req.headers.authorization
+        if (!jwt) {
+            res
+                .status(401)
+                .send({ error: "Authorization Token Required" })
+            return;
+        }
+        await jose.jwtVerify(jwt, secret)
         let items = req.body
         await repository.replaceAll(items)
         res.send({ message: "PUT OK" })
@@ -145,6 +172,16 @@ app.delete("/item/all", async (req, res) => {
             level: 'info',
             message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}, body: ${JSON.stringify(req.body)}`
         })
+        const secret = new TextEncoder().encode(SECRET)
+        let jwt = req.headers.authorization
+        if (!jwt) {
+            res
+                .status(401)
+                .send({ error: "Authorization Token Required" })
+            return;
+        }
+        await jose.jwtVerify(jwt, secret)
+
         let body = req.body
         await repository.deleteAll(body.ids)
         res.send({ message: "DELETE ALL OK" })
@@ -161,12 +198,6 @@ app.delete("/item/all", async (req, res) => {
 app.get("/ping", async (req, res) => {
     try {
         logger.log({ level: 'info', message: `Incoming request: ${req.url}, method: ${req.method}, from: ${req.ip}` })
-
-        //    const secret = new TextEncoder().encode(SECRET)
-        //    let jwt = req.headers.authorization
-        //    await jose.jwtVerify(jwt, secret)
-
-        // console.log(verified)
         res.send("pong")
             .status(200)
     } catch (error) {
