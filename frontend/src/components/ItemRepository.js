@@ -1,4 +1,5 @@
 import axios from "axios";
+import sessionStorage from "./SessionStorage";
 
 class ItemRepository {
     constructor() {
@@ -47,7 +48,7 @@ class ItemRepository {
     }
 
     getToken() {
-        return window.localStorage.getItem("token");
+        return sessionStorage.getToken();
     }
     /*
    return await new Promise((resolve, reject) => {

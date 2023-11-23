@@ -2,6 +2,7 @@ import React from "react";
 import UserRepository from "../components/UserRepository";
 import "../login.css";
 import { useNavigate } from "react-router-dom";
+import sessionStorage from "../components/SessionStorage";
 
 class Login extends React.Component {
     constructor() {
@@ -28,7 +29,7 @@ class Login extends React.Component {
         this.userRepository.getToken({ user: username.value, pass: password.value })
             .then(response => {
                 this.setState({ sending: false, sendOk: true, createMessage: response.data })
-                window.localStorage.setItem("token", response.data?.token);
+                sessionStorage.setToken(response.data?.token)
                 navigation("/")
             })
             .catch(error => {
