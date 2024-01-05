@@ -61,45 +61,46 @@ class Edit extends React.Component {
 
                 {items ?
                     <form onSubmit={this.handleSubmit}>
-                        {
-                            items.map((item, i) =>
-                                <div className="form-row">
-                                    <div class={"edit-form-field"}>
-                                        <label>Id:</label>
-                                        <input type={"text"} name={`_id`} value={item?._id} />
+                        <div className="form-rows">
+                            {
+                                items.map((item, i) =>
+                                    <div className="form-row">
+                                        <div class={"edit-form-field"}>
+                                            <label>Id:</label>
+                                            <input type={"text"} name={`_id`} value={item?._id} />
+                                        </div>
+                                        <div class={"edit-form-field"}>
+                                            <label>Cod. Articulo:</label>
+                                            <input type={"number"} position={i} name={`articleCode`} placeholder="Articulo" value={item?.articleCode} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Descripcion:</label>
+                                            <input type={"text"} position={i} name={`description`} placeholder="Descripcion" value={item?.description} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Marca:</label>
+                                            <input type={"text"} position={i} name={`brand`} placeholder="Marca" value={item?.brand} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Unidades:</label>
+                                            <input type={"number"} position={i} name={`units`} placeholder="00" value={item?.units} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Display:</label>
+                                            <input type={"number"} position={i} name={`display`} placeholder="00" value={item?.display} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Bulk:</label>
+                                            <input type={"number"} position={i} name={`bulk`} placeholder="00" value={item?.bulk} onChange={this.handleChange} />
+                                        </div>
+                                        <div className={"edit-form-field"}>
+                                            <label>Precio:</label>
+                                            <input type={"number"} position={i} name={`price`} step={"0.001"} placeholder="$00.00" value={item?.price} onChange={this.handleChange} />
+                                        </div>
                                     </div>
-                                    <div class={"edit-form-field"}>
-                                        <label>Cod. Articulo:</label>
-                                        <input type={"number"} position={i} name={`articleCode`} placeholder="Articulo" value={item?.articleCode} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Descripcion:</label>
-                                        <input type={"text"} position={i} name={`description`} placeholder="Descripcion" value={item?.description} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Marca:</label>
-                                        <input type={"text"} position={i} name={`brand`} placeholder="Marca" value={item?.brand} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Unidades:</label>
-                                        <input type={"number"} position={i} name={`units`} placeholder="00" value={item?.units} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Display:</label>
-                                        <input type={"number"} position={i} name={`display`} placeholder="00" value={item?.display} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Bulk:</label>
-                                        <input type={"number"} position={i} name={`bulk`} placeholder="00" value={item?.bulk} onChange={this.handleChange} />
-                                    </div>
-                                    <div className={"edit-form-field"}>
-                                        <label>Precio:</label>
-                                        <input type={"number"} position={i} name={`price`} step={"0.001"} placeholder="$00.00" value={item?.price} onChange={this.handleChange} />
-                                    </div>
-                                </div>
-                            )
-                        }
-
+                                )
+                            }
+                        </div>
                         <div className={"box-button"}>
                             <button type={"submit"} className={"edit-upload-button"} disabled={this.state.sending}>Guardar</button>
                         </div>

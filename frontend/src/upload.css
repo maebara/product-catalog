@@ -19,7 +19,8 @@ input[type="number"] {
     border-radius: 5px;
     cursor: pointer;
     width: 18%;
-    margin-left: 30px
+    margin-left: 30px;
+    font-size: 17px;
 }
 
 .upload-button:hover {
@@ -94,4 +95,21 @@ h1 {
     min-width: 30px;
     width: 100%;
     padding-right: 15px;
+}
+
+
+@media only screen and (max-width: 800px) {
+
+  .form-fields {
+    flex-direction: unset;
+    justify-content: center;
+    height: unset;
+  }
+
+  .upload-button{
+    height: 40px;
+    margin-top: 15px;
+    margin-left: 40%;
+    width: 30%;
+}
 }

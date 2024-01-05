@@ -30,3 +30,58 @@
     cursor: pointer;
     width: 150px;
 }
+
+@media only screen and (max-width: 1600px) {
+    .box-button{
+        justify-content: center;
+    }
+
+    .form-rows{
+        overflow-x: scroll;
+        overflow-y: hidden;
+        width: 850px;
+        white-space: nowrap;
+    }
+
+    .form-row {
+        justify-content: unset;
+    }
+
+}
+
+@media only screen and (max-width: 900px) {
+    .box-button{
+        justify-content: center;
+    }
+
+    .form-rows{
+        overflow-x: scroll;
+        overflow-y: hidden;
+        width: 500px;
+        white-space: nowrap;
+    }
+
+    .form-row {
+        justify-content: unset;
+    }
+
+}
+
+
+@media only screen and (max-width: 500px) {
+    .box-button{
+        justify-content: center;
+    }
+
+    .form-rows{
+        overflow-x: scroll;
+        overflow-y: hidden;
+        width: 200px;
+        white-space: nowrap;
+    }
+
+    .form-row {
+        justify-content: unset;
+    }
+
+}

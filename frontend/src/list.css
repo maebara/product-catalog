@@ -23,6 +23,10 @@
     width: 100%;
 }
 
+#menu-bar {
+    display: none;
+}
+
 .action-button {
     background-color: transparent;
     padding: 6px 16px;
@@ -129,4 +133,47 @@ th {
     transform: scale(1.5);
 
 
+}
+
+@media only screen and (max-width: 1200px) {
+    #main-container {
+        width: 90%;
+    }
+
+    .search-box {
+        width: 65%;
+    }
+
+    #menu {
+        display: none;
+    }
+
+    #menu-bar {
+        display: unset;
+        height: 45px;
+        width: 100px;
+        color: white;
+        background: black;
+        font-size: 120%;
+        border-color: black;
+
+    }
+
+    .menu-option {
+        width: 100px;
+    }
+
+    .div-table {
+        overflow-x: auto;
+    }
+
+    #table-actions {
+        flex-wrap: wrap;
+    }
+
+    #actions {
+        padding: 5px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
 }
